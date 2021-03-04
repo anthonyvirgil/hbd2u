@@ -76,13 +76,13 @@ const LoginContainer = styled.div`
 	text-align: center;
 	margin-right: auto;
 	margin-left: auto;
-	height: 100vh;
+	max-width: 960px;
 `;
 
 const Form = styled.form`
 	display: flex;
 	flex-direction: column;
-	width: 100%;
+	width: inherit;
 `;
 
 const Input = styled.input`

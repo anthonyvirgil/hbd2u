@@ -14,6 +14,7 @@ const Home = () => {
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser) || localStorage.getItem('user');
 	const token = localStorage.getItem('token');
+	console.log(user);
 
 	const handleLogout = () => {
 		history.push('/');

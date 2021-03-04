@@ -36,5 +36,8 @@ const AppContainer = styled.div`
 	height: 100vh;
 	background-color: var(--hbd-color-main-bg);
 	color: var(--hbd-font-color);
-	overflow: hidden;
+	overflow: scroll;
+	&::-webkit-scrollbar {
+		display: none;
+	}
 `;

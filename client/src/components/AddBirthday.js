@@ -1,20 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-	selectUserError,
-	registerUser,
+	selectBirthdayError,
+	addBirthday,
 	clearErrors,
-} from '../features/userSlice';
+} from '../features/birthdaySlice';
 import styled from 'styled-components';
 
-const AddBirthday = ({ goBack }) => {
-	const emailRef = useRef(null);
-	const passwordRef = useRef(null);
-	const firstNameRef = useRef(null);
-	const lastNameRef = useRef(null);
+const AddBirthday = () => {
+	const nameRef = useRef(null);
 	const birthDateRef = useRef(null);
 	const dispatch = useDispatch();
-	const userError = useSelector(selectUserError);
+	const birthdayError = useSelector(selectBirthdayError);
 
 	useEffect(() => {
 		dispatch(clearErrors);
@@ -23,56 +20,37 @@ const AddBirthday = ({ goBack }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(
-			registerUser({
-				firstName: firstNameRef.current.value,
-				lastName: lastNameRef.current.value,
+			addBirthday({
+				name: nameRef.current.value,
 				birthDate: birthDateRef.current.value,
-				email: emailRef.current.value,
-				password: passwordRef.current.value,
 			})
 		);
 	};
 
 	const handleGoBack = (e) => {
 		e.preventDefault();
-		goBack();
 	};
 
 	return (
 		<RegistrationContainer>
 			<Title>
-				<h1>HBD2U</h1>
+				<h3>Add Birthday</h3>
 			</Title>
-			<Subtitle>
-				<p>Register now and never forget any birthdays!</p>
-			</Subtitle>
-			<Error>{userError}</Error>
+			<Error>{birthdayError}</Error>
 			<Form onSubmit={handleSubmit}>
 				<InputLabel>
-					<label htmlFor="firstName">First Name</label>
+					<label htmlFor="name">Name</label>
 				</InputLabel>
-				<Input id="firstName" ref={firstNameRef} type="text"></Input>
-				<InputLabel>
-					<label htmlFor="lastName">Last Name</label>
-				</InputLabel>
-				<Input id="lastName" ref={lastNameRef} type="text"></Input>
+				<Input id="name" ref={nameRef} type="text"></Input>
 				<InputLabel>
 					<label htmlFor="birthday">Birthday (MM/DD/YYYY)</label>
 				</InputLabel>
 				<Input id="birthday" ref={birthDateRef} type="text"></Input>
-				<InputLabel>
-					<label htmlFor="email">Email</label>
-				</InputLabel>
-				<Input id="email" ref={emailRef} type="text"></Input>
-				<InputLabel>
-					<label htmlFor="password">Password</label>
-				</InputLabel>
-				<Input id="password" ref={passwordRef} type="password"></Input>
 				<ButtonContainer>
 					<Button type="button" onClick={handleGoBack}>
 						Go Back
 					</Button>
-					<Button type="submit">Register</Button>
+					<Button type="submit">Add</Button>
 				</ButtonContainer>
 			</Form>
 		</RegistrationContainer>
@@ -98,14 +76,14 @@ const RegistrationContainer = styled.div`
 `;
 
 const Form = styled.form`
-	width: 400px;
+	width: inherit;
 	display: flex;
 	flex-direction: column;
 `;
 
 const Title = styled.div`
 	margin-bottom: 10px;
-	font-size: 3em;
+	font-size: 2em;
 `;
 
 const Subtitle = styled.div`

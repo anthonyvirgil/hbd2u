@@ -9,6 +9,7 @@ import AddBirthday from './AddBirthday';
 
 const Main = () => {
 	const user = useSelector(selectUser) || localStorage.getItem('user');
+	console.log(user);
 
 	useEffect(() => {
 		if (!localStorage.getItem('token')) {
@@ -17,7 +18,7 @@ const Main = () => {
 		if (!localStorage.getItem('user')) {
 			localStorage.setItem('user', user);
 		}
-	}, []);
+	}, [user]);
 
 	return <MainContainer>{user ? <Home /> : <Welcome />}</MainContainer>;
 };

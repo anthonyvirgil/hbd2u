@@ -84,7 +84,7 @@ const Registration = ({ goBack }) => {
 export default Registration;
 
 const RegistrationContainer = styled.div`
-	width: 400px;
+	max-width: 960px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -94,7 +94,7 @@ const RegistrationContainer = styled.div`
 const Form = styled.form`
 	display: flex;
 	flex-direction: column;
-	width: 100%;
+	width: inherit;
 `;
 
 const Title = styled.div`
