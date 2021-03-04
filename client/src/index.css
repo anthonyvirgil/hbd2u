@@ -1,0 +1,22 @@
+* {
+	margin: 0;
+}
+
+body {
+	--hbd-color-1: #c4dcdf;
+	--hbd-font-color: #ecf3f4;
+	--hbd-color-3: #729ca2;
+	--hbd-color-4: #ff893b;
+	--hbd-color-container2: #2c2c2c;
+	--hbd-color-container: #222222;
+	--hbd-color-main-bg: #222222;
+
+	background-color: var(--hbd-color-main-bg);
+	color: var(--hbd-font-color);
+	margin: 0;
+	overflow: hidden;
+	font-family: 'Roboto', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+		'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
