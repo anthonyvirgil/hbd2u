@@ -1,31 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { selectUser, logout } from '../features/userSlice';
-import { useSelector } from 'react-redux';
+import { logout } from '../actions/authActions';
 import { Redirect, useHistory } from 'react-router-dom';
 import BirthdayList from './BirthdayList';
 import { FaPlus } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
+import { connect } from 'react-redux';
 
-const Home = () => {
+const Home = (props) => {
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const user = useSelector(selectUser) || localStorage.getItem('user');
-	const token = localStorage.getItem('token');
-	console.log(user);
 
 	const handleLogout = () => {
-		history.push('/');
-		localStorage.setItem('user', undefined);
 		dispatch(logout());
+		history.push('/');
 	};
 
 	return (
 		<>
 			<HomeContainer>
-				{!user && <Redirect to="/welcome" />}
+				{!props.isAuthenticated && <Redirect to="/welcome" />}
 				<BirthdayList />
 				<IconContext.Provider
 					value={{
@@ -45,7 +41,12 @@ const Home = () => {
 	);
 };
 
-export default Home;
+const mapStateToProps = (state) => ({
+	isAuthenticated: state.auth.isAuthenticated,
+	error: state.error,
+});
+
+export default connect(mapStateToProps, {})(Home);
 
 const HomeContainer = styled.div`
 	display: flex;

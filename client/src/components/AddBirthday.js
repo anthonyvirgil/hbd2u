@@ -1,30 +1,23 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	selectBirthdayError,
-	addBirthday,
-	clearErrors,
-} from '../features/birthdaySlice';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const AddBirthday = () => {
 	const nameRef = useRef(null);
 	const birthDateRef = useRef(null);
 	const dispatch = useDispatch();
-	const birthdayError = useSelector(selectBirthdayError);
 
-	useEffect(() => {
-		dispatch(clearErrors);
-	});
+	useEffect(() => {}, []);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		dispatch(
-			addBirthday({
-				name: nameRef.current.value,
-				birthDate: birthDateRef.current.value,
-			})
-		);
+		// dispatch(
+		// 	addBirthday({
+		// 		name: nameRef.current.value,
+		// 		birthDate: birthDateRef.current.value,
+		// 	})
+		// );
 	};
 
 	const handleGoBack = (e) => {
@@ -36,7 +29,7 @@ const AddBirthday = () => {
 			<Title>
 				<h3>Add Birthday</h3>
 			</Title>
-			<Error>{birthdayError}</Error>
+			<Error>{}</Error>
 			<Form onSubmit={handleSubmit}>
 				<InputLabel>
 					<label htmlFor="name">Name</label>
@@ -47,9 +40,9 @@ const AddBirthday = () => {
 				</InputLabel>
 				<Input id="birthday" ref={birthDateRef} type="text"></Input>
 				<ButtonContainer>
-					<Button type="button" onClick={handleGoBack}>
-						Go Back
-					</Button>
+					<Link to="/">
+						<Button type="button">Go Back</Button>
+					</Link>
 					<Button type="submit">Add</Button>
 				</ButtonContainer>
 			</Form>
@@ -71,7 +64,6 @@ const RegistrationContainer = styled.div`
 	padding-left: 10px;
 	height: 100vh;
 	background-color: var(--hbd-color-container2);
-	color: var(--hbd-font-color);
 	overflow: hidden;
 `;
 

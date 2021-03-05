@@ -3,6 +3,7 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { loginValidation } = require('../validation');
+const auth = require('../middleware/auth');
 
 // @route   POST api/auth/login
 // @desc    Authenticates a user
@@ -33,6 +34,15 @@ router.post('/login', async (req, res) => {
 			email: existingUser.email,
 		},
 	});
+});
+
+// @route   GET api/auth/user
+// @desc    Get user data
+// @access  Private
+router.get('/user', auth, (req, res) => {
+	User.findById(req.user.id)
+		.select('-password')
+		.then((user) => res.json(user));
 });
 
 module.exports = router;

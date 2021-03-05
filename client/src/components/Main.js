@@ -1,29 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../features/userSlice';
 import Home from './Home';
 import Welcome from './Welcome';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import AddBirthday from './AddBirthday';
+import { connect } from 'react-redux';
 
-const Main = () => {
-	const user = useSelector(selectUser) || localStorage.getItem('user');
-	console.log(user);
-
-	useEffect(() => {
-		if (!localStorage.getItem('token')) {
-			localStorage.setItem('token', user?.token);
-		}
-		if (!localStorage.getItem('user')) {
-			localStorage.setItem('user', user);
-		}
-	}, [user]);
-
-	return <MainContainer>{user ? <Home /> : <Welcome />}</MainContainer>;
+const Main = (props) => {
+	return (
+		<MainContainer>
+			{props.isAuthenticated ? <Home /> : <Welcome />}
+		</MainContainer>
+	);
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+	user: state.auth.user,
+	isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, {})(Main);
 
 const MainContainer = styled.div`
 	margin-right: auto;

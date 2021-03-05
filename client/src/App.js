@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Main from './components/Main';
 import AddBirthday from './components/AddBirthday';
@@ -6,20 +6,29 @@ import Registration from './components/Registration';
 import Login from './components/Login';
 import Welcome from './components/Welcome';
 import styled from 'styled-components';
+import { loadUser } from './actions/authActions';
+import store from './store';
+import { Provider } from 'react-redux';
 
 function App() {
+	useEffect(() => {
+		store.dispatch(loadUser());
+	}, []);
+
 	return (
-		<Router>
-			<AppContainer>
-				<Switch>
-					<Route path="/" exact component={Main} />
-					<Route path="/welcome" exact component={Welcome} />
-					<Route path="/register" exact component={Registration} />
-					<Route path="/login" exact component={Login} />
-					<Route path="/add" component={AddBirthday} />
-				</Switch>
-			</AppContainer>
-		</Router>
+		<Provider store={store}>
+			<Router>
+				<AppContainer>
+					<Switch>
+						<Route path="/" exact component={Main} />
+						<Route path="/welcome" exact component={Welcome} />
+						<Route path="/register" exact component={Registration} />
+						<Route path="/login" exact component={Login} />
+						<Route path="/add" component={AddBirthday} />
+					</Switch>
+				</AppContainer>
+			</Router>
+		</Provider>
 	);
 }
 

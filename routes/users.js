@@ -21,20 +21,20 @@ router.post('/register', async (req, res) => {
 	const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
 	const user = new User({
-		firstName: req.body.firstName,
-		lastName: req.body.lastName,
+		name: req.body.name,
 		email: req.body.email,
 		password: hashedPassword,
-		birthDate: new Date(req.body.birthDate), // mm/dd/yyyy
 	});
 
 	try {
 		const savedUser = await user.save().then((user) => {
 			const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-			res
-				.status(200)
-				.header('x-auth-token', token)
-				.send({ _id: user._id, name: user.name, email: user.email });
+			res.status(200).header('x-auth-token', token).send({
+				_id: user._id,
+				name: user.name,
+				email: user.email,
+				token: token,
+			});
 		});
 	} catch (error) {
 		res.status(400).send(`Error occurred registering a user: ${error}`);

@@ -1,37 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { FaBirthdayCake } from 'react-icons/fa';
 import { Redirect, Link } from 'react-router-dom';
-import Login from './Login';
-import Registration from './Registration';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../features/userSlice';
+import { connect } from 'react-redux';
 
-const Welcome = () => {
-	const user = useSelector(selectUser) || localStorage.getItem('user');
-	console.log(user);
-	const [signIn, setSignIn] = useState(false);
-	const [register, setRegister] = useState(false);
-
-	const handleLoginClick = () => {
-		// setSignIn(true);
-		// setRegister(false);
-	};
-
-	const handleRegisterClick = () => {
-		// setRegister(true);
-		// setSignIn(false);
-	};
-
-	const goBack = () => {
-		setRegister(false);
-		setSignIn(false);
-	};
-
+const Welcome = (props) => {
 	return (
 		<WelcomeContainer>
-			{!user ? (
-				<Redirect to="/welcome" />
+			{props.isAuthenticated ? (
+				<Redirect to="/" />
 			) : (
 				<>
 					<Title>
@@ -55,7 +32,12 @@ const Welcome = () => {
 	);
 };
 
-export default Welcome;
+const mapStateToProps = (state) => ({
+	user: state.auth.user,
+	isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, {})(Welcome);
 
 const WelcomeContainer = styled.div`
 	display: flex;

@@ -1,34 +1,39 @@
-import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import {
-	selectUserError,
-	registerUser,
-	clearErrors,
-} from '../features/userSlice';
+import { registerUser } from '../actions/authActions';
+import { clearErrors } from '../actions/errorActions';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-const Registration = ({ goBack }) => {
+const Registration = (props) => {
 	const emailRef = useRef(null);
 	const passwordRef = useRef(null);
-	const firstNameRef = useRef(null);
-	const lastNameRef = useRef(null);
-	const birthDateRef = useRef(null);
+	const nameRef = useRef(null);
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const userError = useSelector(selectUserError);
+	const [errorMessage, setErrorMessage] = useState('');
 
 	useEffect(() => {
-		dispatch(clearErrors());
-	});
+		const { error, isAuthenticated } = props;
+
+		if (error.id === 'REGISTER_FAIL') {
+			setErrorMessage(error.msg);
+		} else {
+			setErrorMessage('');
+		}
+
+		if (isAuthenticated) {
+			history.push('/');
+		}
+	}, [props, history]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		dispatch(clearErrors());
 		dispatch(
 			registerUser({
-				firstName: firstNameRef.current.value,
-				lastName: lastNameRef.current.value,
-				birthDate: birthDateRef.current.value,
+				name: nameRef.current.value,
 				email: emailRef.current.value,
 				password: passwordRef.current.value,
 			})
@@ -43,25 +48,14 @@ const Registration = ({ goBack }) => {
 	return (
 		<RegistrationContainer>
 			<Title>
-				<h1>HBD2U</h1>
+				<h3>Registration</h3>
 			</Title>
-			<Subtitle>
-				<p>Register now and never forget any birthdays!</p>
-			</Subtitle>
-			<Error>{userError}</Error>
+			<Error>{errorMessage}</Error>
 			<Form onSubmit={handleSubmit}>
 				<InputLabel>
-					<label htmlFor="firstName">First Name</label>
+					<label htmlFor="name">Name</label>
 				</InputLabel>
-				<Input id="firstName" ref={firstNameRef} type="text"></Input>
-				<InputLabel>
-					<label htmlFor="lastName">Last Name</label>
-				</InputLabel>
-				<Input id="lastName" ref={lastNameRef} type="text"></Input>
-				<InputLabel>
-					<label htmlFor="birthday">Birthday (MM/DD/YYYY)</label>
-				</InputLabel>
-				<Input id="birthday" ref={birthDateRef} type="text"></Input>
+				<Input id="name" ref={nameRef} type="text"></Input>
 				<InputLabel>
 					<label htmlFor="email">Email</label>
 				</InputLabel>
@@ -81,14 +75,27 @@ const Registration = ({ goBack }) => {
 	);
 };
 
-export default Registration;
+const mapStateToProps = (state) => ({
+	isAuthenticated: state.auth.isAuthenticated,
+	error: state.error,
+});
+
+export default connect(mapStateToProps, { registerUser, clearErrors })(
+	Registration
+);
 
 const RegistrationContainer = styled.div`
-	max-width: 960px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	margin-right: auto;
+	margin-left: auto;
+	max-width: 960px;
+	padding-right: 10px;
+	padding-left: 10px;
+	height: 100vh;
+	background-color: var(--hbd-color-container2);
 `;
 
 const Form = styled.form`
@@ -99,13 +106,7 @@ const Form = styled.form`
 
 const Title = styled.div`
 	margin-bottom: 10px;
-	font-size: 3em;
-`;
-
-const Subtitle = styled.div`
-	color: var(--hbd-color-4);
-	font-size: 1.2em;
-	margin-bottom: 20px;
+	font-size: 2em;
 `;
 
 const Error = styled.div`

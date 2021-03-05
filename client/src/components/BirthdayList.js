@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { selectUser, logout } from '../features/userSlice';
-import { useSelector } from 'react-redux';
+import { Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
-const BirthdayList = () => {
-	const user = useSelector(selectUser);
+const BirthdayList = (props) => {
 	const [birthdays, setBirthdays] = useState([]);
-	const token = localStorage.getItem('token');
 
 	useEffect(() => {
 		axios
 			.get('/api/birthdays', {
-				params: { userId: user?.id },
-				headers: { 'x-auth-token': token },
+				params: { userId: props.user?.id },
+				headers: { 'x-auth-token': localStorage.getItem('token') },
 			})
 			.then((response) => setBirthdays(response.data))
 			.catch((err) => {
 				console.log(err);
 			});
-	}, [user?.id]);
+	}, []);
 
 	const getAge = (birthDate) => {
 		var today = new Date();
@@ -33,33 +31,42 @@ const BirthdayList = () => {
 		return age;
 	};
 	return (
-		<BirthdayListContainer>
-			<h1>Birthdays</h1>
-			<BirthdaysContainer>
-				{birthdays.map((birthday) => (
-					<Birthday>
-						<AvatarContainer>
-							<Avatar src={birthday.imageURL}></Avatar>
-						</AvatarContainer>
-						<BirthdayInfo>
-							<h1>{birthday.name}</h1>
-							<h3>
-								{new Intl.DateTimeFormat('en-US', {
-									year: 'numeric',
-									month: 'long',
-									day: '2-digit',
-								}).format(new Date(birthday.birthDate))}
-							</h3>
-							<h3>{`Age: ${getAge(new Date(birthday.birthDate))}`}</h3>
-						</BirthdayInfo>
-					</Birthday>
-				))}
-			</BirthdaysContainer>
-		</BirthdayListContainer>
+		<>
+			{!props.isAuthenticated && <Redirect to="/welcome" />}
+			<BirthdayListContainer>
+				<h1>Birthdays</h1>
+				<BirthdaysContainer>
+					{birthdays.map((birthday) => (
+						<Birthday>
+							<AvatarContainer>
+								<Avatar src={birthday.imageURL}></Avatar>
+							</AvatarContainer>
+							<BirthdayInfo>
+								<h1>{birthday.name}</h1>
+								<h3>
+									{new Intl.DateTimeFormat('en-US', {
+										year: 'numeric',
+										month: 'long',
+										day: '2-digit',
+									}).format(new Date(birthday.birthDate))}
+								</h3>
+								<h3>{`Age: ${getAge(new Date(birthday.birthDate))}`}</h3>
+							</BirthdayInfo>
+						</Birthday>
+					))}
+				</BirthdaysContainer>
+			</BirthdayListContainer>
+		</>
 	);
 };
 
-export default BirthdayList;
+const mapStateToProps = (state) => ({
+	user: state.auth.user,
+	isAuthenticated: state.auth.isAuthenticated,
+	error: state.error,
+});
+
+export default connect(mapStateToProps, {})(BirthdayList);
 
 const BirthdayListContainer = styled.div``;
 

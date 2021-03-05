@@ -1,38 +1,42 @@
-import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import {
-	selectUserError,
-	userLogin,
-	clearErrors,
-	selectUser,
-} from '../features/userSlice';
+import { login } from '../actions/authActions';
+import { clearErrors } from '../actions/errorActions';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-const Login = ({ goBack }) => {
-	const user = useSelector(selectUser) || localStorage.getItem('user');
+const Login = (props) => {
 	const emailRef = useRef(null);
 	const passwordRef = useRef(null);
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const userError = useSelector(selectUserError);
+	const [errorMessage, setErrorMessage] = useState('');
 
 	useEffect(() => {
-		// dispatch(clearErrors());
-	});
+		const { error, isAuthenticated } = props;
+
+		if (error.id === 'LOGIN_FAIL') {
+			setErrorMessage(error.msg);
+		} else {
+			setErrorMessage('');
+		}
+
+		if (isAuthenticated) {
+			history.push('/');
+		}
+	}, [props, history]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
+		dispatch(clearErrors());
 		dispatch(
-			userLogin({
+			login({
 				email: emailRef.current.value,
 				password: passwordRef.current.value,
 			})
 		);
-		if (localStorage.getItem('user')) {
-			history.push('/');
-		}
 	};
 
 	const handleGoBack = (e) => {
@@ -45,7 +49,7 @@ const Login = ({ goBack }) => {
 			<Title>
 				<h1>HBD2U</h1>
 			</Title>
-			<Error>{userError}</Error>
+			<Error>{errorMessage}</Error>
 			<Form onSubmit={(e) => handleSubmit(e)}>
 				<InputLabel>
 					<label htmlFor="email">Email</label>
@@ -66,7 +70,12 @@ const Login = ({ goBack }) => {
 	);
 };
 
-export default Login;
+const mapStateToProps = (state) => ({
+	isAuthenticated: state.auth.isAuthenticated,
+	error: state.error,
+});
+
+export default connect(mapStateToProps, { login, clearErrors })(Login);
 
 const LoginContainer = styled.div`
 	display: flex;

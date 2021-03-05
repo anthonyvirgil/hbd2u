@@ -3,13 +3,9 @@ const Joi = require('@hapi/joi');
 // User registration validation
 const registerValidation = (data) => {
 	const schema = Joi.object({
-		firstName: Joi.string().required(),
-		lastName: Joi.string().required(),
+		name: Joi.string().required(),
 		email: Joi.string().min(6).required().email(),
 		password: Joi.string().min(6).required(),
-		birthDate: Joi.string()
-			.regex(/^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$/)
-			.required(),
 	});
 
 	return schema.validate(data);
