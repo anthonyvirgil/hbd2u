@@ -27,7 +27,7 @@ router.get('/', auth, (req, res) => {
 // @route   GET api/birthdays/:id
 // @desc    Retrieve a birthday
 // @access  Public
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
 	try {
 		const birthday = await Birthday.findById(req.params.id);
 		if (birthday) {
@@ -43,7 +43,7 @@ router.get('/:id', async (req, res) => {
 // @route   POST api/birthdays
 // @desc    Create a Birthday
 // @access  Public
-router.post('/', (req, res) => {
+router.post('/', auth, (req, res) => {
 	const { error } = birthdayValidation(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
 
@@ -68,7 +68,7 @@ router.post('/', (req, res) => {
 // @route   DELETE api/birthdays/:id
 // @desc    Delete an Item
 // @access  Public
-router.delete('/:id', (req, res) => {
+router.delete('/:id', auth, (req, res) => {
 	Birthday.findById(req.params.id)
 		.then((birthday) =>
 			birthday.remove().then(() => res.json({ success: true }))

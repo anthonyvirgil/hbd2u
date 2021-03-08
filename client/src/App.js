@@ -5,6 +5,7 @@ import AddBirthday from './components/AddBirthday';
 import Registration from './components/Registration';
 import Login from './components/Login';
 import Welcome from './components/Welcome';
+import Home from './components/Home';
 import styled from 'styled-components';
 import { loadUser } from './actions/authActions';
 import store from './store';
@@ -24,6 +25,7 @@ function App() {
 						<Route path="/welcome" exact component={Welcome} />
 						<Route path="/register" exact component={Registration} />
 						<Route path="/login" exact component={Login} />
+						<Route path="/home" exact component={Home} />
 						<Route path="/add" component={AddBirthday} />
 					</Switch>
 				</AppContainer>

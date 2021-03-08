@@ -71,7 +71,7 @@ const BirthdayIcon = styled.div`
 
 const WelcomeButtons = styled.div`
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
 	@media (max-width: 450px) {
 		flex-direction: column;
@@ -88,6 +88,7 @@ const Button = styled.button`
 	font-size: 1.2em;
 	outline-style: none;
 	border-style: none;
+	cursor: pointer;
 
 	@media (max-width: 450px) {
 		margin: 10px 0 10px 0;

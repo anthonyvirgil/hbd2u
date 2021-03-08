@@ -47,7 +47,7 @@ const Login = (props) => {
 	return (
 		<LoginContainer>
 			<Title>
-				<h1>HBD2U</h1>
+				<h3>Login</h3>
 			</Title>
 			<Error>{errorMessage}</Error>
 			<Form onSubmit={(e) => handleSubmit(e)}>
@@ -82,10 +82,13 @@ const LoginContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	text-align: center;
 	margin-right: auto;
 	margin-left: auto;
 	max-width: 960px;
+	padding-right: 10px;
+	padding-left: 10px;
+	height: 100vh;
+	background-color: var(--hbd-color-container2);
 `;
 
 const Form = styled.form`
@@ -120,6 +123,7 @@ const Button = styled.button`
 	font-size: 1.2em;
 	outline-style: none;
 	border-style: none;
+	cursor: pointer;
 `;
 
 const InputLabel = styled.div`
@@ -129,7 +133,7 @@ const InputLabel = styled.div`
 
 const Title = styled.div`
 	margin-bottom: 10px;
-	font-size: 3em;
+	font-size: 2em;
 `;
 
 const Error = styled.div`

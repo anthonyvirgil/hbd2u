@@ -13,7 +13,6 @@ const Main = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-	user: state.auth.user,
 	isAuthenticated: state.auth.isAuthenticated,
 });
 

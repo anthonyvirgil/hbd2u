@@ -1,27 +1,55 @@
-import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, connect } from 'react-redux';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { addBirthday } from '../actions/birthdayActions';
+import { logout } from '../actions/authActions';
+import { clearErrors } from '../actions/errorActions';
+import UploadImageForm from './UploadImageForm';
 
-const AddBirthday = () => {
+const AddBirthday = (props) => {
 	const nameRef = useRef(null);
 	const birthDateRef = useRef(null);
 	const dispatch = useDispatch();
+	const history = useHistory();
+	const [errorMessage, setErrorMessage] = useState('');
+	const [fileUrl, setFileUrl] = useState('');
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		const { error, isAuthenticated, birthday } = props;
+
+		if (error.id === 'ADD_BIRTHDAY_FAIL') {
+			setErrorMessage(error.msg);
+		} else {
+			setErrorMessage('');
+		}
+
+		if (!isAuthenticated) {
+			dispatch(logout());
+			history.push('/');
+		}
+
+		if (props.birthday) {
+			history.push('/');
+		}
+	}, [props, history]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		// dispatch(
-		// 	addBirthday({
-		// 		name: nameRef.current.value,
-		// 		birthDate: birthDateRef.current.value,
-		// 	})
-		// );
+		dispatch(
+			addBirthday({
+				name: nameRef.current.value,
+				birthDate: birthDateRef.current.value,
+				imageURL: fileUrl,
+				userId: localStorage.getItem('userId'),
+				token: localStorage.getItem('token'),
+			})
+		);
 	};
 
 	const handleGoBack = (e) => {
 		e.preventDefault();
+		history.push('/welcome');
 	};
 
 	return (
@@ -29,7 +57,8 @@ const AddBirthday = () => {
 			<Title>
 				<h3>Add Birthday</h3>
 			</Title>
-			<Error>{}</Error>
+			<Error>{errorMessage}</Error>
+			<UploadImageForm setFileUrl={setFileUrl}></UploadImageForm>
 			<Form onSubmit={handleSubmit}>
 				<InputLabel>
 					<label htmlFor="name">Name</label>
@@ -50,7 +79,15 @@ const AddBirthday = () => {
 	);
 };
 
-export default AddBirthday;
+const mapStateToProps = (state) => ({
+	birthday: state.birthday.birthday,
+	isAuthenticated: state.auth.isAuthenticated,
+	error: state.error,
+});
+
+export default connect(mapStateToProps, { clearErrors, logout, addBirthday })(
+	AddBirthday
+);
 
 const RegistrationContainer = styled.div`
 	display: flex;
@@ -64,7 +101,7 @@ const RegistrationContainer = styled.div`
 	padding-left: 10px;
 	height: 100vh;
 	background-color: var(--hbd-color-container2);
-	overflow: hidden;
+	overflow-y: auto;
 `;
 
 const Form = styled.form`

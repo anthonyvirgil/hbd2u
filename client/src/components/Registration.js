@@ -141,6 +141,7 @@ const Button = styled.button`
 	font-size: 1.2em;
 	outline-style: none;
 	border-style: none;
+	cursor: pointer;
 `;
 
 const InputLabel = styled.div`

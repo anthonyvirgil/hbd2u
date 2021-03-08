@@ -2,13 +2,16 @@ import { useState, useEffect } from 'react';
 import { projectStorage } from '../firebase/config';
 
 // Custom Firebase hook
-export const useStorage = (file) => {
+export const useStorage = (file, fileName) => {
 	const [progress, setProgress] = useState(0);
 	const [error, setError] = useState(null);
 	const [url, setUrl] = useState(null);
 
 	useEffect(() => {
-		const storageRef = projectStorage.ref(file.name);
+		if (!file) return;
+		console.log(file);
+		console.log(fileName);
+		const storageRef = projectStorage.ref().child(fileName);
 
 		storageRef.put(file).on(
 			'state_changed',

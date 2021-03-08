@@ -11,7 +11,10 @@ const BirthdayList = (props) => {
 		axios
 			.get('/api/birthdays', {
 				params: { userId: props.user?.id },
-				headers: { 'x-auth-token': localStorage.getItem('token') },
+				headers: {
+					'Content-Type': 'application/json',
+					'x-auth-token': localStorage.getItem('token'),
+				},
 			})
 			.then((response) => setBirthdays(response.data))
 			.catch((err) => {
@@ -68,7 +71,10 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {})(BirthdayList);
 
-const BirthdayListContainer = styled.div``;
+const BirthdayListContainer = styled.div`
+	width: 100%;
+	overflow-y: auto;
+`;
 
 const BirthdaysContainer = styled.div`
 	display: flex;
@@ -80,7 +86,7 @@ const BirthdaysContainer = styled.div`
 const Birthday = styled.div`
 	display: flex;
 	height: 100px;
-	width: 450px;
+	width: 700px;
 	background-color: var(--hbd-color-container);
 	border-radius: 10px;
 	margin: 20px;

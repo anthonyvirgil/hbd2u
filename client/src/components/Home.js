@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -12,6 +12,22 @@ import { connect } from 'react-redux';
 const Home = (props) => {
 	const history = useHistory();
 	const dispatch = useDispatch();
+	const [errorMessage, setErrorMessage] = useState('');
+
+	useEffect(() => {
+		const { error, isAuthenticated } = props;
+
+		if (error.id === 'ADD_BIRTHDAY_FAIL') {
+			setErrorMessage(error.msg);
+		} else {
+			setErrorMessage('');
+		}
+
+		if (!isAuthenticated) {
+			dispatch(logout());
+			history.push('/');
+		}
+	}, [props, history]);
 
 	const handleLogout = () => {
 		dispatch(logout());
@@ -21,7 +37,7 @@ const Home = (props) => {
 	return (
 		<>
 			<HomeContainer>
-				{!props.isAuthenticated && <Redirect to="/welcome" />}
+				{/* {!props.isAuthenticated && <Redirect to="/welcome" />} */}
 				<BirthdayList />
 				<IconContext.Provider
 					value={{
@@ -29,11 +45,11 @@ const Home = (props) => {
 						size: '38px',
 					}}
 				>
-					<AddBirthdayContainer>
+					<AddBirthdayIcon>
 						<Link to="/add">
 							<FaPlus />
 						</Link>
-					</AddBirthdayContainer>
+					</AddBirthdayIcon>
 				</IconContext.Provider>
 				<button onClick={handleLogout}>Logout</button>
 			</HomeContainer>
@@ -51,15 +67,16 @@ export default connect(mapStateToProps, {})(Home);
 const HomeContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
+	justify-content: center;
 	align-items: center;
 	text-align: center;
 	margin-right: auto;
 	margin-left: auto;
 	height: 100vh;
+	overflow-y: auto;
 `;
 
-const AddBirthdayContainer = styled.div`
+const AddBirthdayIcon = styled.div`
 	padding: 10px;
 	border: 6px solid var(--hbd-color-3);
 	border-radius: 50%;

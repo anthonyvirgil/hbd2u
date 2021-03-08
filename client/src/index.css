@@ -3,6 +3,7 @@
 }
 
 body {
+	margin: 10px 20px 15px -10px;
 	--hbd-color-1: #c4dcdf;
 	--hbd-font-color: #ecf3f4;
 	--hbd-color-3: #729ca2;
