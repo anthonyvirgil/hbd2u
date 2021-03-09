@@ -9,8 +9,6 @@ export const useStorage = (file, fileName) => {
 
 	useEffect(() => {
 		if (!file) return;
-		console.log(file);
-		console.log(fileName);
 		const storageRef = projectStorage.ref().child(fileName);
 
 		storageRef.put(file).on(

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { login } from '../actions/authActions';
 import { clearErrors } from '../actions/errorActions';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const Login = (props) => {
 	const emailRef = useRef(null);

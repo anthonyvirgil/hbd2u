@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { registerUser } from '../actions/authActions';
 import { clearErrors } from '../actions/errorActions';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const Registration = (props) => {
 	const emailRef = useRef(null);

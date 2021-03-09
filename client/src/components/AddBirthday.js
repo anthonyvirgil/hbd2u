@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, connect } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Link, useHistory } from 'react-router-dom';
 import { addBirthday } from '../actions/birthdayActions';
 import { logout } from '../actions/authActions';
@@ -100,7 +100,7 @@ const RegistrationContainer = styled.div`
 	padding-right: 10px;
 	padding-left: 10px;
 	height: 100vh;
-	background-color: var(--hbd-color-container2);
+	background-color: var(--hbd-color-main-bg);
 	overflow-y: auto;
 `;
 

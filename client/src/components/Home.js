@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { logout } from '../actions/authActions';
 import { Redirect, useHistory } from 'react-router-dom';
 import BirthdayList from './BirthdayList';
@@ -29,15 +29,9 @@ const Home = (props) => {
 		}
 	}, [props, history]);
 
-	const handleLogout = () => {
-		dispatch(logout());
-		history.push('/');
-	};
-
 	return (
 		<>
 			<HomeContainer>
-				{/* {!props.isAuthenticated && <Redirect to="/welcome" />} */}
 				<BirthdayList />
 				<IconContext.Provider
 					value={{
@@ -51,7 +45,6 @@ const Home = (props) => {
 						</Link>
 					</AddBirthdayIcon>
 				</IconContext.Provider>
-				<button onClick={handleLogout}>Logout</button>
 			</HomeContainer>
 		</>
 	);
@@ -72,12 +65,13 @@ const HomeContainer = styled.div`
 	text-align: center;
 	margin-right: auto;
 	margin-left: auto;
-	height: 100vh;
+	padding: 20px 0 20px 0;
+	height: 90vh;
 	overflow-y: auto;
 `;
 
 const AddBirthdayIcon = styled.div`
-	padding: 10px;
+	padding: 6px;
 	border: 6px solid var(--hbd-color-3);
 	border-radius: 50%;
 `;

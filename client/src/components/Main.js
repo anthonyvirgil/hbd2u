@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import Home from './Home';
 import Welcome from './Welcome';
 import { connect } from 'react-redux';
@@ -24,8 +24,8 @@ const MainContainer = styled.div`
 	max-width: 960px;
 	padding-right: 10px;
 	padding-left: 10px;
-	height: 100vh;
+	/* height: 100vh; */
 	background-color: var(--hbd-color-container2);
 	color: var(--hbd-font-color);
-	overflow: hidden;
+	/* overflow: hidden; */
 `;

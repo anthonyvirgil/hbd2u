@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { FaBirthdayCake } from 'react-icons/fa';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';

@@ -6,7 +6,8 @@ import Registration from './components/Registration';
 import Login from './components/Login';
 import Welcome from './components/Welcome';
 import Home from './components/Home';
-import styled from 'styled-components';
+import Navbar from './components/Navbar';
+import styled from 'styled-components/macro';
 import { loadUser } from './actions/authActions';
 import store from './store';
 import { Provider, connect } from 'react-redux';
@@ -19,7 +20,7 @@ function App(props) {
 	return (
 		<Router>
 			<AppContainer>
-				{props.isAuthenticated ? 'NavBar' : 'Nop'}
+				{props.isAuthenticated && <Navbar />}
 				<Switch>
 					<Route path="/" exact component={Main} />
 					<Route path="/welcome" exact component={Welcome} />
@@ -42,15 +43,12 @@ export default connect(mapStateToProps, {})(App);
 const AppContainer = styled.div`
 	margin-right: auto;
 	margin-left: auto;
-
 	max-width: 960px;
-
 	padding-right: 10px;
 	padding-left: 10px;
 	height: 100vh;
 	background-color: var(--hbd-color-main-bg);
 	color: var(--hbd-font-color);
-	overflow: scroll;
 	&::-webkit-scrollbar {
 		display: none;
 	}
