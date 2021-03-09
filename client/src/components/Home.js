@@ -33,18 +33,18 @@ const Home = (props) => {
 		<>
 			<HomeContainer>
 				<BirthdayList />
-				<IconContext.Provider
-					value={{
-						color: 'var(--hbd-color-3)',
-						size: '38px',
-					}}
-				>
-					<AddBirthdayIcon>
+				<AddBirthdayIcon>
+					<IconContext.Provider
+						value={{
+							color: 'var(--hbd-color-3)',
+							size: '38px',
+						}}
+					>
 						<Link to="/add">
 							<FaPlus />
 						</Link>
-					</AddBirthdayIcon>
-				</IconContext.Provider>
+					</IconContext.Provider>
+				</AddBirthdayIcon>
 			</HomeContainer>
 		</>
 	);
@@ -71,6 +71,7 @@ const HomeContainer = styled.div`
 `;
 
 const AddBirthdayIcon = styled.div`
+	margin: 20px;
 	padding: 6px;
 	border: 6px solid var(--hbd-color-3);
 	border-radius: 50%;

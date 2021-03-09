@@ -29,7 +29,7 @@ const AddBirthday = (props) => {
 			history.push('/');
 		}
 
-		if (props.birthday) {
+		if (birthday) {
 			history.push('/');
 		}
 	}, [props, history]);
@@ -45,11 +45,6 @@ const AddBirthday = (props) => {
 				token: localStorage.getItem('token'),
 			})
 		);
-	};
-
-	const handleGoBack = (e) => {
-		e.preventDefault();
-		history.push('/welcome');
 	};
 
 	return (
@@ -92,15 +87,12 @@ export default connect(mapStateToProps, { clearErrors, logout, addBirthday })(
 const RegistrationContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
+	text-align: center;
 	margin-right: auto;
 	margin-left: auto;
-	max-width: 960px;
-	padding-right: 10px;
-	padding-left: 10px;
-	height: 100vh;
-	background-color: var(--hbd-color-main-bg);
+	padding: 20px 0 20px 0;
+	height: 90vh;
 	overflow-y: auto;
 `;
 
@@ -113,12 +105,6 @@ const Form = styled.form`
 const Title = styled.div`
 	margin-bottom: 10px;
 	font-size: 2em;
-`;
-
-const Subtitle = styled.div`
-	color: var(--hbd-color-4);
-	font-size: 1.2em;
-	margin-bottom: 20px;
 `;
 
 const Error = styled.div`
@@ -148,11 +134,14 @@ const Button = styled.button`
 	margin: 0 20px 0 20px;
 	width: 160px;
 	padding: 15px 20px;
-	border-radius: 15px;
+	border-radius: 25px;
 	color: var(--hbd-font-color);
 	font-size: 1.2em;
 	outline-style: none;
 	border-style: none;
+	:hover {
+		cursor: pointer;
+	}
 `;
 
 const InputLabel = styled.div`
