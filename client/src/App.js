@@ -9,32 +9,35 @@ import Home from './components/Home';
 import styled from 'styled-components';
 import { loadUser } from './actions/authActions';
 import store from './store';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 
-function App() {
+function App(props) {
 	useEffect(() => {
-		store.dispatch(loadUser());
+		// store.dispatch(loadUser());
 	}, []);
 
 	return (
-		<Provider store={store}>
-			<Router>
-				<AppContainer>
-					<Switch>
-						<Route path="/" exact component={Main} />
-						<Route path="/welcome" exact component={Welcome} />
-						<Route path="/register" exact component={Registration} />
-						<Route path="/login" exact component={Login} />
-						<Route path="/home" exact component={Home} />
-						<Route path="/add" component={AddBirthday} />
-					</Switch>
-				</AppContainer>
-			</Router>
-		</Provider>
+		<Router>
+			<AppContainer>
+				{props.isAuthenticated ? 'NavBar' : 'Nop'}
+				<Switch>
+					<Route path="/" exact component={Main} />
+					<Route path="/welcome" exact component={Welcome} />
+					<Route path="/register" exact component={Registration} />
+					<Route path="/login" exact component={Login} />
+					<Route path="/home" exact component={Home} />
+					<Route path="/add" component={AddBirthday} />
+				</Switch>
+			</AppContainer>
+		</Router>
 	);
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+	isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, {})(App);
 
 const AppContainer = styled.div`
 	margin-right: auto;
