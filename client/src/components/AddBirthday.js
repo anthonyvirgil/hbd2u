@@ -50,7 +50,7 @@ const AddBirthday = (props) => {
 	return (
 		<RegistrationContainer>
 			<Title>
-				<h3>Add Birthday</h3>
+				<h3>Add New Birthday</h3>
 			</Title>
 			<Error>{errorMessage}</Error>
 			<UploadImageForm setFileUrl={setFileUrl}></UploadImageForm>
@@ -85,6 +85,7 @@ export default connect(mapStateToProps, { clearErrors, logout, addBirthday })(
 );
 
 const RegistrationContainer = styled.div`
+	background-color: var(--hbd-color-container2);
 	display: flex;
 	flex-direction: column;
 	align-items: center;

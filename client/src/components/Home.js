@@ -8,16 +8,17 @@ import BirthdayList from './BirthdayList';
 import { FaPlus } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
 import { connect } from 'react-redux';
+import { retrieveBirthdays } from '../actions/birthdayActions';
 
 const Home = (props) => {
+	const [errorMessage, setErrorMessage] = useState('');
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const [errorMessage, setErrorMessage] = useState('');
 
 	useEffect(() => {
 		const { error, isAuthenticated } = props;
 
-		if (error.id === 'ADD_BIRTHDAY_FAIL') {
+		if (error.id === 'GET_ALL_BIRTHDAYS_FAIL') {
 			setErrorMessage(error.msg);
 		} else {
 			setErrorMessage('');
@@ -27,12 +28,16 @@ const Home = (props) => {
 			dispatch(logout());
 			history.push('/');
 		}
+
+		dispatch(retrieveBirthdays(props.user?.id, localStorage.getItem('token')));
 	}, [props, history]);
 
 	return (
 		<>
+			{!props.isAuthenticated && <Redirect to="/welcome" />}
 			<HomeContainer>
-				<BirthdayList />
+				<Error>{errorMessage}</Error>
+				<BirthdayList birthdays={props.birthdays} />
 				<AddBirthdayIcon>
 					<IconContext.Provider
 						value={{
@@ -51,6 +56,7 @@ const Home = (props) => {
 };
 
 const mapStateToProps = (state) => ({
+	birthdays: state.birthday.allBirthdays,
 	isAuthenticated: state.auth.isAuthenticated,
 	error: state.error,
 });
@@ -75,4 +81,10 @@ const AddBirthdayIcon = styled.div`
 	padding: 6px;
 	border: 6px solid var(--hbd-color-3);
 	border-radius: 50%;
+`;
+
+const Error = styled.div`
+	color: var(--hbd-color-4);
+	font-size: 1.2em;
+	margin-bottom: 20px;
 `;

@@ -2,34 +2,18 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import BirthdayCard from './BirthdayCard';
 
 const BirthdayList = (props) => {
-	const [birthdays, setBirthdays] = useState([]);
-
-	useEffect(() => {
-		axios
-			.get('/api/birthdays', {
-				params: { userId: props.user?.id },
-				headers: {
-					'Content-Type': 'application/json',
-					'x-auth-token': localStorage.getItem('token'),
-				},
-			})
-			.then((response) => setBirthdays(response.data))
-			.catch((err) => {
-				console.log(err);
-			});
-	}, []);
-
 	return (
 		<>
-			{!props.isAuthenticated && <Redirect to="/welcome" />}
 			<BirthdayListContainer>
-				<h1>Birthdays</h1>
+				<Title>
+					<h3>Birthdays</h3>
+				</Title>
 				<BirthdaysContainer>
-					{birthdays.map((birthday) => (
+					{props.birthdays.map((birthday) => (
 						<BirthdayCard birthday={birthday}></BirthdayCard>
 					))}
 				</BirthdaysContainer>
@@ -56,9 +40,20 @@ const BirthdayListContainer = styled.div`
 	}
 `;
 
+const Title = styled.div`
+	margin-bottom: 10px;
+	font-size: 2em;
+`;
+
 const BirthdaysContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+`;
+
+const Error = styled.div`
+	color: var(--hbd-color-4);
+	font-size: 1.2em;
+	margin-bottom: 20px;
 `;
