@@ -8,9 +8,7 @@ import Welcome from './components/Welcome';
 import Home from './components/Home';
 import Navbar from './components/Navbar';
 import styled from 'styled-components/macro';
-import { loadUser } from './actions/authActions';
-import store from './store';
-import { Provider, connect } from 'react-redux';
+import { connect } from 'react-redux';
 
 function App(props) {
 	useEffect(() => {

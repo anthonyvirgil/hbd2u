@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Redirect, useHistory } from 'react-router-dom';
-import axios from 'axios';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import BirthdayCard from './BirthdayCard';
 
 const BirthdayList = (props) => {
@@ -50,10 +47,4 @@ const BirthdaysContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-`;
-
-const Error = styled.div`
-	color: var(--hbd-color-4);
-	font-size: 1.2em;
-	margin-bottom: 20px;
 `;

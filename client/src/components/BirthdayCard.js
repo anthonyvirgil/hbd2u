@@ -3,10 +3,10 @@ import styled from 'styled-components/macro';
 
 const getAge = (birthDate) => {
 	var today = new Date();
-	var birthDate = new Date(birthDate);
-	var age = today.getFullYear() - birthDate.getFullYear();
-	var m = today.getMonth() - birthDate.getMonth();
-	if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+	var birthday = new Date(birthDate);
+	var age = today.getFullYear() - birthday.getFullYear();
+	var m = today.getMonth() - birthday.getMonth();
+	if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
 		age = age - 1;
 	}
 
