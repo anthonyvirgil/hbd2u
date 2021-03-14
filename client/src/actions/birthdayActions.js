@@ -5,6 +5,8 @@ import {
 	ADD_BIRTHDAY_FAIL,
 	GET_ALL_BIRTHDAYS_FAIL,
 	GET_ALL_BIRTHDAYS_SUCCESS,
+	GET_TODAY_BIRTHDAYS_SUCCESS,
+	GET_TODAY_BIRTHDAYS_FAIL,
 } from '../reducers/birthdayReducer';
 
 export const retrieveBirthdays = (userId, token) => (dispatch) => {
@@ -32,6 +34,37 @@ export const retrieveBirthdays = (userId, token) => (dispatch) => {
 			);
 			dispatch({
 				type: GET_ALL_BIRTHDAYS_FAIL,
+			});
+		});
+};
+
+export const retrieveBirthdaysToday = (userId, token) => (dispatch) => {
+	let monthToday = new Date().getMonth() + 1;
+	let dateToday = new Date().getDate();
+	axios
+		.get('/api/birthdays', {
+			params: { userId: userId, month: monthToday, day: dateToday },
+			headers: {
+				'Content-Type': 'application/json',
+				'x-auth-token': token,
+			},
+		})
+		.then((response) => {
+			dispatch({
+				type: GET_TODAY_BIRTHDAYS_SUCCESS,
+				payload: response.data,
+			});
+		})
+		.catch((err) => {
+			dispatch(
+				returnErrors(
+					err.response.data,
+					err.response.status,
+					GET_TODAY_BIRTHDAYS_FAIL
+				)
+			);
+			dispatch({
+				type: GET_TODAY_BIRTHDAYS_FAIL,
 			});
 		});
 };

@@ -13,15 +13,14 @@ const DEFAULT_IMAGE_URL =
 // @desc    Retrieves all birthdays
 // @access  Public
 router.get('/', auth, (req, res) => {
-	if (req.query.userId) {
-		Birthday.find({ userId: req.query.userId })
-			.sort({ birthDate: -1 })
-			.then((items) => res.json(items));
-	} else {
-		Birthday.find()
-			.sort({ birthDate: -1 })
-			.then((items) => res.json(items));
-	}
+	birthdayParams = {};
+	if (req.query.userId) birthdayParams.userId = req.query.userId;
+	if (req.query.month) birthdayParams.birthMonth = req.query.month;
+	if (req.query.day) birthdayParams.birthDay = req.query.day;
+
+	Birthday.find(birthdayParams)
+		.sort({ birthDate: -1 })
+		.then((items) => res.json(items));
 });
 
 // @route   GET api/birthdays/:id
@@ -51,9 +50,15 @@ router.post('/', auth, (req, res) => {
 		req.body.imageURL = DEFAULT_IMAGE_URL;
 	}
 
+	let birthDate = new Date(req.body.birthDate);
+	let birthMonth = birthDate.getMonth() + 1;
+	let birthDay = birthDate.getDate();
+
 	const newBirthday = new Birthday({
 		name: req.body.name,
-		birthDate: new Date(req.body.birthDate), // mm/dd/yyyy
+		birthDate: birthDate, // mm/dd/yyyy
+		birthMonth: birthMonth,
+		birthDay: birthDay,
 		imageURL: req.body.imageURL,
 		userId: mongoose.Types.ObjectId.createFromHexString(req.body.userId),
 	});

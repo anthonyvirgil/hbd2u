@@ -6,13 +6,14 @@ const BirthdayList = (props) => {
 	return (
 		<>
 			<BirthdayListContainer>
-				<Title>
-					<h3>Birthdays</h3>
-				</Title>
 				<BirthdaysContainer>
-					{props.birthdays.map((birthday) => (
-						<BirthdayCard birthday={birthday}></BirthdayCard>
-					))}
+					{props.birthdays ? (
+						props.birthdays.map((birthday) => (
+							<BirthdayCard birthday={birthday}></BirthdayCard>
+						))
+					) : (
+						<h2>No birthdays to display</h2>
+					)}
 				</BirthdaysContainer>
 			</BirthdayListContainer>
 		</>
@@ -35,11 +36,6 @@ const BirthdayListContainer = styled.div`
 	::-webkit-scrollbar {
 		width: 0 !important;
 	}
-`;
-
-const Title = styled.div`
-	margin-bottom: 10px;
-	font-size: 2em;
 `;
 
 const BirthdaysContainer = styled.div`

@@ -9,6 +9,14 @@ const birthdaySchema = new mongoose.Schema({
 		type: Date,
 		required: true,
 	},
+	birthMonth: {
+		type: Number,
+		required: true,
+	},
+	birthDay: {
+		type: Number,
+		required: true,
+	},
 	imageURL: {
 		type: String,
 	},

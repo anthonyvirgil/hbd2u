@@ -10,6 +10,9 @@ const Navbar = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
+	const handleToday = () => {
+		history.push('/today');
+	};
 	const handleLogout = () => {
 		dispatch(logout());
 		history.push('/');
@@ -17,20 +20,13 @@ const Navbar = () => {
 	return (
 		<NavbarContainer>
 			<NavbarLinksContainer>
-				<IconContext.Provider
-					value={{
-						color: 'var(--hbd-font-color)',
-						size: '38px',
-					}}
-				>
-					<FaBars />
-				</IconContext.Provider>
+				<Button onClick={handleToday}>Today</Button>
 			</NavbarLinksContainer>
 			<NavbarLogo>
 				<AppLogo>HBD2U</AppLogo>
 			</NavbarLogo>
 			<LogoutContainer>
-				<LogoutButton onClick={handleLogout}>Logout</LogoutButton>
+				<Button onClick={handleLogout}>Logout</Button>
 			</LogoutContainer>
 		</NavbarContainer>
 	);
@@ -65,7 +61,7 @@ const LogoutContainer = styled.div`
 	display: flex;
 	justify-content: flex-end;
 `;
-const LogoutButton = styled.h2`
+const Button = styled.h2`
 	border: none;
 	background-color: transparent;
 	color: var(--hbd-font-color);

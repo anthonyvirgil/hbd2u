@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, useHistory, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/macro';
 import { logout } from '../actions/authActions';
-import { Redirect, useHistory } from 'react-router-dom';
 import BirthdayList from './BirthdayList';
 import { FaPlus } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
 import { connect } from 'react-redux';
-import { retrieveBirthdays } from '../actions/birthdayActions';
-import { GET_ALL_BIRTHDAYS_FAIL } from '../reducers/birthdayReducer';
+import { retrieveBirthdaysToday } from '../actions/birthdayActions';
+import { GET_TODAY_BIRTHDAYS_FAIL } from '../reducers/birthdayReducer';
 
-const Home = (props) => {
+const TodayBirthdays = (props) => {
 	const [errorMessage, setErrorMessage] = useState('');
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -19,7 +18,7 @@ const Home = (props) => {
 	useEffect(() => {
 		const { error, isAuthenticated } = props;
 
-		if (error.id === GET_ALL_BIRTHDAYS_FAIL) {
+		if (error.id === GET_TODAY_BIRTHDAYS_FAIL) {
 			setErrorMessage(error.msg);
 		} else {
 			setErrorMessage('');
@@ -30,16 +29,18 @@ const Home = (props) => {
 			history.push('/');
 		}
 
-		dispatch(retrieveBirthdays(props.user?.id, localStorage.getItem('token')));
+		dispatch(
+			retrieveBirthdaysToday(props.user?.id, localStorage.getItem('token'))
+		);
 	}, [props, history]);
 
 	return (
 		<>
 			{!props.isAuthenticated && <Redirect to="/welcome" />}
-			<HomeContainer>
+			<TodayContainer>
 				<Error>{errorMessage}</Error>
 				<BirthdayTitle>
-					<h3>Birthdays</h3>
+					<h3>Today's Birthdays</h3>
 				</BirthdayTitle>
 				<BirthdayList birthdays={props.birthdays} />
 				<AddBirthdayIcon>
@@ -54,20 +55,20 @@ const Home = (props) => {
 						</Link>
 					</IconContext.Provider>
 				</AddBirthdayIcon>
-			</HomeContainer>
+			</TodayContainer>
 		</>
 	);
 };
 
 const mapStateToProps = (state) => ({
-	birthdays: state.birthday.allBirthdays,
+	birthdays: state.birthday.todayBirthdays,
 	isAuthenticated: state.auth.isAuthenticated,
 	error: state.error,
 });
 
-export default connect(mapStateToProps, {})(Home);
+export default connect(mapStateToProps, {})(TodayBirthdays);
 
-const HomeContainer = styled.div`
+const TodayContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -78,6 +79,7 @@ const HomeContainer = styled.div`
 	padding: 20px 0 20px 0;
 	height: 90vh;
 	overflow-y: auto;
+	background-color: var(--hbd-color-container2);
 `;
 
 const AddBirthdayIcon = styled.div`

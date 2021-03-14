@@ -6,6 +6,7 @@ import Registration from './components/Registration';
 import Login from './components/Login';
 import Welcome from './components/Welcome';
 import Home from './components/Home';
+import TodayBirthdays from './components/TodayBirthdays';
 import Navbar from './components/Navbar';
 import styled from 'styled-components/macro';
 import { connect } from 'react-redux';
@@ -26,6 +27,7 @@ function App(props) {
 					<Route path="/login" exact component={Login} />
 					<Route path="/home" exact component={Home} />
 					<Route path="/add" component={AddBirthday} />
+					<Route path="/today" component={TodayBirthdays} />
 				</Switch>
 			</AppContainer>
 		</Router>
